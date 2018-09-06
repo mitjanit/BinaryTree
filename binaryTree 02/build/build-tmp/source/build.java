@@ -16,13 +16,14 @@ public class build extends PApplet {
 
 
 int value=10;
+int num = 30;
 Tree tree;
 
 public void setup(){
 	
 	background(0);
 
-	createBinaryTree(30);
+	createBinaryTree(num);
 	tree.traverse();
 	searchBinaryTree(value);
 
@@ -37,13 +38,16 @@ public void createBinaryTree(int num){
 }
 
 public void searchBinaryTree(int val){
-	Node result = tree.search(val);
-	if (result == null) {
-	  println(val+" not found.");
-	} else {
-	  println(result.value+" found.");
-	}
+
+	String message= (tree.contains(val)) ? "Tree contains "+val+"." : "Tree doesn't contain "+val;
+
+	textAlign(LEFT);
+	text(message, 50, height-100);
+	text("Minim Value: "+tree.findMinim(), 50, height-80);
+	text("Maxim Value: "+tree.findMaxim(), 50, height -60);
 }
+
+
 
 
 public void draw(){
@@ -51,7 +55,7 @@ public void draw(){
 
 public void mousePressed(){
 	background(0);
-	createBinaryTree(30);
+	createBinaryTree(num);
 	tree.traverse();
 	searchBinaryTree(value);
 }
@@ -70,7 +74,7 @@ class Node {
 		this.left = null;
 		this.right = null;
 
-		this.distance = 2.5f;
+		this.distance = 2.0f;
 		this.pos = new PVector(0,0);
 	}
 
@@ -94,13 +98,42 @@ class Node {
 		return null;
 	}
 
+
+	public boolean contains(int val){
+		if(this.value==val){
+			return true;
+		}
+		else if(val < this.value && this.left != null){
+			return left.contains(val);
+		}
+		else if(val > this.value && this.right != null){
+			return right.contains(val);
+		}
+		return false;
+	}
+
+	public int findMinim() {
+	    return (this.left == null) ? this.value : this.left.findMinim();
+	}
+
+	public int findMaxim() {
+	    return (this.right == null) ? this.value : this.right.findMaxim();
+	}
+
 	public void visit(Node parent) {
 	  // Recursively go left
 	  if (this.left != null) {
 	    this.left.visit(this);
 	  }
+	  
+
+	  // Recursively go right
+	  if (this.right != null) {
+	    this.right.visit(this);
+	  }
+
 	  // Display
-	  stroke(100);
+	  stroke(255);
 	  line(parent.pos.x, parent.pos.y, this.pos.x, this.pos.y);
 	  
 	  stroke(255); fill(0);
@@ -109,11 +142,6 @@ class Node {
 	  noStroke();fill(255);
 	  textAlign(CENTER); textSize(12);
 	  text(this.value, this.pos.x, this.pos.y + 4);
-
-	  // Recursively go right
-	  if (this.right != null) {
-	    this.right.visit(this);
-	  }
 	}
 
 	public void addNode(Node n) {
@@ -130,7 +158,6 @@ class Node {
 	    if (this.right == null) {
 	      this.right = n;
 	      this.right.pos.x = this.pos.x + 5 + ((width-30) / pow(n.distance, 2));
-	      println((width / pow(2, n.distance)));
       	  this.right.pos.y = this.pos.y + (height / 12);
 	    } else {
 	    	n.distance++;
@@ -169,8 +196,21 @@ class Tree {
 			root.addNode(n);
 		}
 	}
+
+
+	public boolean contains(int val){
+		return root.contains(val);
+	}
+
+	public int findMinim() {
+    	return (root.left == null) ? root.value : root.left.findMinim();
+	}
+
+	public int findMaxim() {
+    	return (root.right == null) ? root.value : root.right.findMaxim();
+	}
 }
-  public void settings() { 	size(800,800); }
+  public void settings() { 	size(1400,800); }
   static public void main(String[] passedArgs) {
     String[] appletArgs = new String[] { "build" };
     if (passedArgs != null) {

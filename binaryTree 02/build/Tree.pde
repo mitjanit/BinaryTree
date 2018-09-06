@@ -27,4 +27,17 @@ class Tree {
 			root.addNode(n);
 		}
 	}
+
+
+	boolean contains(int val){
+		return root.contains(val);
+	}
+
+	int findMinim() {
+    	return (root.left == null) ? root.value : root.left.findMinim();
+	}
+
+	int findMaxim() {
+    	return (root.right == null) ? root.value : root.right.findMaxim();
+	}
 }

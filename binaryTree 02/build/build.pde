@@ -1,12 +1,13 @@
 
 int value=10;
+int num = 30;
 Tree tree;
 
 void setup(){
-	size(800,800);
+	size(1400,800);
 	background(0);
 
-	createBinaryTree(30);
+	createBinaryTree(num);
 	tree.traverse();
 	searchBinaryTree(value);
 
@@ -21,13 +22,16 @@ void createBinaryTree(int num){
 }
 
 void searchBinaryTree(int val){
-	Node result = tree.search(val);
-	if (result == null) {
-	  println(val+" not found.");
-	} else {
-	  println(result.value+" found.");
-	}
+
+	String message= (tree.contains(val)) ? "Tree contains "+val+"." : "Tree doesn't contain "+val;
+
+	textAlign(LEFT);
+	text(message, 50, height-100);
+	text("Minim Value: "+tree.findMinim(), 50, height-80);
+	text("Maxim Value: "+tree.findMaxim(), 50, height -60);
 }
+
+
 
 
 void draw(){
@@ -35,7 +39,7 @@ void draw(){
 
 void mousePressed(){
 	background(0);
-	createBinaryTree(30);
+	createBinaryTree(num);
 	tree.traverse();
 	searchBinaryTree(value);
 }

@@ -13,7 +13,7 @@ class Node {
 		this.left = null;
 		this.right = null;
 
-		this.distance = 2.5;
+		this.distance = 2.0;
 		this.pos = new PVector(0,0);
 	}
 
@@ -37,13 +37,42 @@ class Node {
 		return null;
 	}
 
+
+	boolean contains(int val){
+		if(this.value==val){
+			return true;
+		}
+		else if(val < this.value && this.left != null){
+			return left.contains(val);
+		}
+		else if(val > this.value && this.right != null){
+			return right.contains(val);
+		}
+		return false;
+	}
+
+	int findMinim() {
+	    return (this.left == null) ? this.value : this.left.findMinim();
+	}
+
+	int findMaxim() {
+	    return (this.right == null) ? this.value : this.right.findMaxim();
+	}
+
 	void visit(Node parent) {
 	  // Recursively go left
 	  if (this.left != null) {
 	    this.left.visit(this);
 	  }
+	  
+
+	  // Recursively go right
+	  if (this.right != null) {
+	    this.right.visit(this);
+	  }
+
 	  // Display
-	  stroke(100);
+	  stroke(255);
 	  line(parent.pos.x, parent.pos.y, this.pos.x, this.pos.y);
 	  
 	  stroke(255); fill(0);
@@ -52,11 +81,6 @@ class Node {
 	  noStroke();fill(255);
 	  textAlign(CENTER); textSize(12);
 	  text(this.value, this.pos.x, this.pos.y + 4);
-
-	  // Recursively go right
-	  if (this.right != null) {
-	    this.right.visit(this);
-	  }
 	}
 
 	void addNode(Node n) {
@@ -73,7 +97,6 @@ class Node {
 	    if (this.right == null) {
 	      this.right = n;
 	      this.right.pos.x = this.pos.x + 5 + ((width-30) / pow(n.distance, 2));
-	      println((width / pow(2, n.distance)));
       	  this.right.pos.y = this.pos.y + (height / 12);
 	    } else {
 	    	n.distance++;

@@ -3,6 +3,9 @@ int value=10;
 Tree tree;
 
 void setup(){
+	size(800,800);
+	background(0);
+
 	createBinaryTree(30);
 	tree.traverse();
 	searchBinaryTree(value);
@@ -31,6 +34,7 @@ void draw(){
 }
 
 void mousePressed(){
+	background(0);
 	createBinaryTree(30);
 	tree.traverse();
 	searchBinaryTree(value);

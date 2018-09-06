@@ -8,7 +8,7 @@ class Tree {
 	}
 
 	void traverse(){
-		root.visit();
+		root.visit(this.root);
 		println();
 	}
 
@@ -20,9 +20,11 @@ class Tree {
 		Node n = new Node(val);
 		if(root == null){
 			root = n;
+			root.pos.x = width / 2;
+    		root.pos.y = 50;
 		}
 		else {
-			root.addNode(new Node(val));
+			root.addNode(n);
 		}
 	}
 }
